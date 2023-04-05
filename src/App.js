@@ -18,7 +18,7 @@ const App = () => {
             <sphereGeometry args={[0.2]} />
             <meshBasicMaterial color={'red'} />
           </mesh>}
-          config={{ startPosition: { x: 0, y: 2 } }}
+          config={{ startPosition: { x: 0, y: 2 }, radius: 0.2 }}
         />
 
         <Dynamic
@@ -27,7 +27,7 @@ const App = () => {
             <sphereGeometry args={[0.2]} />
             <meshBasicMaterial color={'blue'} />
           </mesh>}
-          config={{ startPosition: { x: 0, y: -2 }, startVelocity: { x: 0, y: 0.09 } }}
+          config={{ startPosition: { x: 0, y: -2 }, startVelocity: { x: 0, y: 0.09 }, radius: 0.2 }}
         />
       </Physics>
     </Canvas>
