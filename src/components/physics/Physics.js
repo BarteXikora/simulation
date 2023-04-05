@@ -10,6 +10,7 @@ import { useFrame } from '@react-three/fiber'
 import handleGravity from '../../functions/handleGravity'
 import handleAirResistance from '../../functions/handleAirResistance'
 import calculatePosition from '../../functions/calculatePosition'
+import findCollisions from '../../functions/findCollisions'
 
 const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) => {
     // Ref for all children:
@@ -31,6 +32,11 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
                 // Applies calculations by changinch position based on valocity:
                 const newPosition = calculatePosition(current)
                 current.position.set(newPosition.x, newPosition.y, current.position.z)
+
+                // Gets list of collisions:
+                current.collisions = findCollisions(current, physicsRef.current)
+
+                console.log(current.collisions)
             }
         })
     })
@@ -59,7 +65,10 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
                         radius: child.props.config ? child.props.config.radius || 1 : 1,
 
                         // Velocity of an object:
-                        velocity: child.props.config ? child.props.config.startVelocity || { x: 0, y: 0 } : { x: 0, y: 0 }
+                        velocity: child.props.config ? child.props.config.startVelocity || { x: 0, y: 0 } : { x: 0, y: 0 },
+
+                        // Collisions:
+                        collisions: []
                     }
                 })
             }
