@@ -5,7 +5,6 @@
 */
 
 import React, { useRef, Children, cloneElement } from 'react'
-import { Vector3 } from 'three'
 import { useFrame } from '@react-three/fiber'
 
 import handleGravity from '../../functions/handleGravity'
