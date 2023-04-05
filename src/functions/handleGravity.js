@@ -3,10 +3,10 @@
     Calculates new velocity vector by applaing gravity:
 */
 
-const handleGravity = (element, timeDelta) => {
+const handleGravity = (element, gravity, timeDelta) => {
     return {
-        x: element.physics.velocity.x,
-        y: element.physics.velocity.y - (10 * timeDelta)
+        x: element.physics.velocity.x + (gravity.x * timeDelta),
+        y: element.physics.velocity.y + (gravity.x * timeDelta)
     }
 }
 

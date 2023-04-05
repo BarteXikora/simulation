@@ -9,7 +9,7 @@ import { useFrame } from '@react-three/fiber'
 
 import handleGravity from '../../functions/handleGravity'
 
-const Physics = ({ children }) => {
+const Physics = ({ children, gravity = { x: 0, y: -10 } }) => {
     // Ref for all children:
     const physicsRef = useRef([])
 
@@ -21,7 +21,7 @@ const Physics = ({ children }) => {
             if (current.physics.physics === 'dynamic') {
 
                 // Handles gravity:
-                current.physics.velocity = handleGravity(current, delta)
+                current.physics.velocity = handleGravity(current, gravity, delta)
             }
         })
     })

@@ -11,7 +11,7 @@ const App = () => {
     <Canvas>
       <color args={[0, 0, 0]} attach={'background'} />
 
-      <Physics>
+      <Physics gravity={{ x: 0, y: -10 }}>
         <Dynamic type='ball' element={<mesh><sphereGeometry /></mesh>} />
       </Physics>
     </Canvas>
