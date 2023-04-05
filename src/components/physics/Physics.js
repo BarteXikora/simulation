@@ -5,9 +5,11 @@
 */
 
 import React, { useRef, Children, cloneElement } from 'react'
+import { Vector3 } from 'three'
 import { useFrame } from '@react-three/fiber'
 
 import handleGravity from '../../functions/handleGravity'
+import calculatePosition from '../../functions/calculatePosition'
 
 const Physics = ({ children, gravity = { x: 0, y: -10 } }) => {
     // Ref for all children:
@@ -22,6 +24,10 @@ const Physics = ({ children, gravity = { x: 0, y: -10 } }) => {
 
                 // Handles gravity:
                 current.physics.velocity = handleGravity(current, gravity, delta)
+
+                // Applies calculations by changinch position based on valocity:
+                const newPosition = calculatePosition(current)
+                current.position.set(newPosition.x, newPosition.y, current.position.z)
             }
         })
     })
