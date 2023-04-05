@@ -1,9 +1,14 @@
 import React, { useRef, Children, cloneElement } from 'react'
+import { useFrame } from '@react-three/fiber'
 
 const Physics = ({ children }) => {
     const physicsRef = useRef([])
 
-    console.log(Children.toArray(children))
+    useFrame((state, delta) => {
+        physicsRef.current.forEach(current => {
+            console.log(current.physics)
+        })
+    })
 
     return <>{
         Children.map(children, child => cloneElement(
