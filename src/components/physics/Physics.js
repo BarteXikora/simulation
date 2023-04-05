@@ -55,6 +55,9 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
                         // Objects mass:
                         mass: child.props.config ? child.props.config.mass || 1 : 1,
 
+                        // Objects radius (considerd if type == ball, or ring...):
+                        radius: child.props.config ? child.props.config.radius || 1 : 1,
+
                         // Velocity of an object:
                         velocity: child.props.config ? child.props.config.startVelocity || { x: 0, y: 0 } : { x: 0, y: 0 }
                     }

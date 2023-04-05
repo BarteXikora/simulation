@@ -12,7 +12,14 @@ const App = () => {
       <color args={[0, 0, 0]} attach={'background'} />
 
       <Physics gravity={{ x: 0, y: -10 }} airResistance={8}>
-        <Dynamic type='ball' element={<mesh><sphereGeometry /></mesh>} config={{ startPosition: { x: 3, y: 0 } }} />
+        <Dynamic
+          type='ball'
+          element={<mesh>
+            <sphereGeometry args={[0.2]} />
+            <meshBasicMaterial color={'red'} />
+          </mesh>}
+          config={{ startPosition: { x: 3, y: 0 } }}
+        />
       </Physics>
     </Canvas>
   )
