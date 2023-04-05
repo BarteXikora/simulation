@@ -8,9 +8,10 @@ import React, { useRef, Children, cloneElement } from 'react'
 import { useFrame } from '@react-three/fiber'
 
 import handleGravity from '../../functions/handleGravity'
+import handleAirResistance from '../../functions/handleAirResistance'
 import calculatePosition from '../../functions/calculatePosition'
 
-const Physics = ({ children, gravity = { x: 0, y: -10 } }) => {
+const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) => {
     // Ref for all children:
     const physicsRef = useRef([])
 
@@ -23,6 +24,9 @@ const Physics = ({ children, gravity = { x: 0, y: -10 } }) => {
 
                 // Handles gravity:
                 current.physics.velocity = handleGravity(current, gravity, delta)
+
+                // Handles air resistance:
+                current.physics.velocity = handleAirResistance(current, airResistance, delta)
 
                 // Applies calculations by changinch position based on valocity:
                 const newPosition = calculatePosition(current)
