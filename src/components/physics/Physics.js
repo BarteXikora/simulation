@@ -36,7 +36,7 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
                 // Gets list of collisions:
                 current.collisions = findCollisions(current, physicsRef.current)
 
-                console.log(current.collisions)
+
             }
         })
     })
