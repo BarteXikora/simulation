@@ -6,7 +6,7 @@
 const handleGravity = (element, gravity, timeDelta) => {
     return {
         x: element.physics.velocity.x + (gravity.x * timeDelta),
-        y: element.physics.velocity.y + (gravity.x * timeDelta)
+        y: element.physics.velocity.y + (gravity.y * timeDelta)
     }
 }
 
