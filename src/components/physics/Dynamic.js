@@ -4,4 +4,6 @@ const Dynamic = React.forwardRef(({ type, element, config }, ref) => {
     return <group ref={ref} >{element}</group>
 })
 
+Dynamic.physicsType = 'dynamic'
+
 export default Dynamic
