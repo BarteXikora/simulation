@@ -48,6 +48,9 @@ const Physics = ({ children, gravity = { x: 0, y: -10 } }) => {
                         // Object type: ball | ring...
                         type: child.props.type || 'ball',
 
+                        // Objects mass:
+                        mass: child.props.config ? child.props.config.mass || 1 : 1,
+
                         // Velocity of an object:
                         velocity: child.props.config ? child.props.config.startVelocity || { x: 0, y: 0 } : { x: 0, y: 0 }
                     }
