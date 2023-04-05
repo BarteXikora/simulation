@@ -7,6 +7,8 @@
 import React, { useRef, Children, cloneElement } from 'react'
 import { useFrame } from '@react-three/fiber'
 
+import handleGravity from '../../functions/handleGravity'
+
 const Physics = ({ children }) => {
     // Ref for all children:
     const physicsRef = useRef([])
@@ -14,7 +16,13 @@ const Physics = ({ children }) => {
     // Calculates physics parameters of each child every frame:
     useFrame((state, delta) => {
         physicsRef.current.forEach(current => {
-            console.log(current.physics)
+
+            // Calculations for dynamic objects:
+            if (current.physics.physics === 'dynamic') {
+
+                // Handles gravity:
+                current.physics.velocity = handleGravity(current, delta)
+            }
         })
     })
 
