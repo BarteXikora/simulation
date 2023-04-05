@@ -7,14 +7,31 @@
 import React, { useRef, Children, cloneElement } from 'react'
 import { useFrame } from '@react-three/fiber'
 
-const Physics = ({ children }) => {
+import handleGravity from '../../functions/handleGravity'
+import handleAirResistance from '../../functions/handleAirResistance'
+import calculatePosition from '../../functions/calculatePosition'
+
+const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) => {
     // Ref for all children:
     const physicsRef = useRef([])
 
     // Calculates physics parameters of each child every frame:
     useFrame((state, delta) => {
         physicsRef.current.forEach(current => {
-            console.log(current.physics)
+
+            // Calculations for dynamic objects:
+            if (current.physics.physics === 'dynamic') {
+
+                // Handles gravity:
+                current.physics.velocity = handleGravity(current, gravity, delta)
+
+                // Handles air resistance:
+                current.physics.velocity = handleAirResistance(current, airResistance, delta)
+
+                // Applies calculations by changinch position based on valocity:
+                const newPosition = calculatePosition(current)
+                current.position.set(newPosition.x, newPosition.y, current.position.z)
+            }
         })
     })
 
@@ -34,6 +51,12 @@ const Physics = ({ children }) => {
 
                         // Object type: ball | ring...
                         type: child.props.type || 'ball',
+
+                        // Objects mass:
+                        mass: child.props.config ? child.props.config.mass || 1 : 1,
+
+                        // Objects radius (considerd if type == ball, or ring...):
+                        radius: child.props.config ? child.props.config.radius || 1 : 1,
 
                         // Velocity of an object:
                         velocity: child.props.config ? child.props.config.startVelocity || { x: 0, y: 0 } : { x: 0, y: 0 }

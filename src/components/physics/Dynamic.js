@@ -6,7 +6,17 @@
 import React from 'react'
 
 const Dynamic = React.forwardRef(({ type, element, config }, ref) => {
-    return <group ref={ref} >{element}</group>
+
+    // Gets start position from config prop:
+    const startPositionConfig = config.startPosition || { x: 0, y: 0 }
+    const startPosition = [startPositionConfig.x, startPositionConfig.y, 0]
+
+    return <group
+        ref={ref}
+        position={startPosition}
+    >
+        {element}
+    </group>
 })
 
 Dynamic.physicsType = 'dynamic'
