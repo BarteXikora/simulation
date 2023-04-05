@@ -11,6 +11,7 @@ import handleGravity from '../../functions/handleGravity'
 import handleAirResistance from '../../functions/handleAirResistance'
 import calculatePosition from '../../functions/calculatePosition'
 import findCollisions from '../../functions/findCollisions'
+import handleCollisions from '../../functions/handleCollisions'
 
 const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) => {
     // Ref for all children:
@@ -29,14 +30,15 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
                 // Handles air resistance:
                 current.physics.velocity = handleAirResistance(current, airResistance, delta)
 
-                // Applies calculations by changinch position based on valocity:
-                const newPosition = calculatePosition(current)
-                current.position.set(newPosition.x, newPosition.y, current.position.z)
-
                 // Gets list of collisions:
                 current.collisions = findCollisions(current, physicsRef.current)
 
+                // Handle collisions if there are any:
+                if (current.collisions.length > 0) current.physics.velocity = handleCollisions(current, current.collisions)
 
+                // Applies calculations by changinch position based on valocity:
+                const newPosition = calculatePosition(current)
+                current.position.set(newPosition.x, newPosition.y, current.position.z)
             }
         })
     })
