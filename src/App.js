@@ -5,6 +5,7 @@ import Physics from './components/physics/Physics'
 import Dynamic from './components/physics/Dynamic'
 import Static from './components/physics/Static'
 
+import BackGround from './components/scene/BackGround'
 import Ring from './components/scene/Ring'
 import Ball from './components/scene/Ball'
 
@@ -27,6 +28,9 @@ const App = () => {
   return (
     <Canvas>
       <color args={[0, 0, 0]} attach={'background'} />
+
+      {/* Grid and viewfinder in the backgroud: */}
+      <BackGround />
 
       <Physics gravity={{ x: 0, y: -3 }} airResistance={8} maxSpeed={{ x: 0.5, y: 0.5 }}>
 
