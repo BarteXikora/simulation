@@ -34,11 +34,18 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
                 current.collisions = findCollisions(current, physicsRef.current)
 
                 // Handle collisions if there are any:
-                if (current.collisions.length > 0) current.physics.velocity = handleCollisions(current, current.collisions)
+                if (current.collisions.length > 0) current.physics._velocity = handleCollisions(current, current.collisions)
             }
         })
 
         physicsRef.current.forEach(current => {
+
+            // Applies velocity calculated by handle collisions function:
+            if (current.physics.physics === 'dynamic') if (current.physics._velocity) {
+                current.physics.velocity = current.physics._velocity
+                current.physics._velocity = null
+            }
+
             // Applies calculations by changinch position based on valocity:
             const newPosition = calculatePosition(current)
             current.position.set(newPosition.x, newPosition.y, current.position.z)
@@ -70,6 +77,9 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
 
                         // Velocity of an object:
                         velocity: child.props.config ? child.props.config.startVelocity || { x: 0, y: 0 } : { x: 0, y: 0 },
+
+                        // Temporary velocity calculated by handle collision function:
+                        _velocity: null,
 
                         // Collisions:
                         collisions: []
