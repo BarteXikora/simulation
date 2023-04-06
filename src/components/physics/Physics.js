@@ -48,16 +48,17 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
         })
 
         physicsRef.current.forEach(current => {
+            if (current.physics.physics === 'dynamic') {
+                // Applies velocity calculated by handle collisions function:
+                if (current.physics.physics === 'dynamic') if (current.physics._velocity) {
+                    current.physics.velocity = current.physics._velocity
+                    current.physics._velocity = null
+                }
 
-            // Applies velocity calculated by handle collisions function:
-            if (current.physics.physics === 'dynamic') if (current.physics._velocity) {
-                current.physics.velocity = current.physics._velocity
-                current.physics._velocity = null
+                // Applies calculations by changinch position based on valocity:
+                const newPosition = calculatePosition(current)
+                current.position.set(newPosition.x, newPosition.y, current.position.z)
             }
-
-            // Applies calculations by changinch position based on valocity:
-            const newPosition = calculatePosition(current)
-            current.position.set(newPosition.x, newPosition.y, current.position.z)
         })
     })
 
