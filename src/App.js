@@ -6,6 +6,7 @@ import Dynamic from './components/physics/Dynamic'
 import Static from './components/physics/Static'
 
 import Ring from './components/scene/Ring'
+import Ball from './components/scene/Ball'
 
 import './style.css'
 
@@ -33,10 +34,7 @@ const App = () => {
           balls.map((ball, n) => <Dynamic
             key={n}
             type='ball'
-            element={<mesh>
-              <sphereGeometry args={[0.1]} />
-              <meshBasicMaterial color={ball.color} />
-            </mesh>}
+            element={<Ball color={ball.color} />}
             config={{ startPosition: { x: ball.x, y: ball.y }, radius: 0.1 }}
           />)
         }
