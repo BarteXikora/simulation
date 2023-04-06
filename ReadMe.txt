@@ -1,5 +1,10 @@
 Zadanie: Wizualizacja Symulacji Zdarzeń
 
+Uruchomienie:
+
+npm install
+npm run start
+
 
 Zrozumienie polecenia:  
 
