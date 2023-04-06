@@ -3,6 +3,7 @@ import { Canvas } from '@react-three/fiber'
 
 import Physics from './components/physics/Physics'
 import Dynamic from './components/physics/Dynamic'
+import Static from './components/physics/Static'
 
 import './style.css'
 
@@ -69,6 +70,8 @@ const App = () => {
           </mesh>}
           config={{ startPosition: { x: 0, y: 0 }, startVelocity: { x: 0, y: 0 }, radius: 0.2 }}
         />
+
+        <Static element={<mesh><ringGeometry args={[3, 3.1, 64]} /></mesh>} config={{}} />
       </Physics>
 
       {/* <Physics gravity={{ x: 0, y: -3 }} airResistance={8}>
