@@ -40,30 +40,53 @@ const calculateCollisionBallxBall = (element, collision) => {
     return { x: parVector.x - perpVector.x, y: parVector.y - perpVector.y }
 }
 
+// Calculates new vector after collision of a ball with a rings wall:
+const calculateCollisionBallxRing = (element) => {
+    return { x: -element.physics.velocity.x, y: -element.physics.velocity.y }
+}
+
 // Main function, calculates all collisions using more specific functions and then calculates average vector:
 const handleCollisions = (element, collisions) => {
 
-    // All collisions vectors:
-    let velocities = []
+    let collisionsWithBiggestIntersection = { intersection: -1 }
 
-    // Loop for all current collisions:
     collisions.forEach(collision => {
-        if (element.physics.type === 'ball') {
-            if (collision.colliderType === 'ball')
-                velocities.push(calculateCollisionBallxBall(element, collision))
-        }
+        if (collision.intersection > collisionsWithBiggestIntersection.intersection)
+            collisionsWithBiggestIntersection = collision
     })
+
+    if (element.physics.type === 'ball') {
+        if (collisionsWithBiggestIntersection.colliderType === 'ball')
+            return calculateCollisionBallxBall(element, collisionsWithBiggestIntersection)
+
+        else if (collisionsWithBiggestIntersection.colliderType === 'ring')
+            return calculateCollisionBallxRing(element)
+    }
+
+    // // All collisions vectors:
+    // let velocities = []
+
+    // // Loop for all current collisions:
+    // collisions.forEach(collision => {
+    //     if (element.physics.type === 'ball') {
+    //         if (collision.colliderType === 'ball')
+    //             velocities.push(calculateCollisionBallxBall(element, collision))
+
+    //         else if (collision.colliderType === 'ring')
+    //             velocities.push(calculateCollisionBallxRing(element))
+    //     }
+    // })
 
     // Calculates average vector value:
-    let avgVector = { x: 0, y: 0 }
-    velocities.forEach(vel => {
-        avgVector.x += vel.x
-        avgVector.y += vel.y
-    })
-    avgVector.x /= (velocities.length !== 0 ? velocities.length : 1)
-    avgVector.y /= (velocities.length !== 0 ? velocities.length : 1)
+    // let avgVector = { x: 0, y: 0 }
+    // velocities.forEach(vel => {
+    //     avgVector.x += vel.x
+    //     avgVector.y += vel.y
+    // })
+    // avgVector.x /= (velocities.length !== 0 ? velocities.length : 1)
+    // avgVector.y /= (velocities.length !== 0 ? velocities.length : 1)
 
-    return avgVector
+    // return avgVector
 }
 
 export default handleCollisions

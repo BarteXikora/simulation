@@ -29,6 +29,29 @@ const findCollisionsBallXBall = (element, collider) => {
     return false
 }
 
+// Checks if there is collision with a ball and a ring:
+const findCollisionsBallXRing = (element, collider) => {
+    // Gets positions:
+    const [xB, yB, xR, yR] = [element.position.x, element.position.y, collider.position.x, collider.position.y]
+
+    // Get radiusses:
+    const [radB, radR] = [element.physics.radius, collider.physics.radius]
+
+    // Calculates distance between balls center and rings center:
+    const xDiff = xR - xB
+    const yDiff = yR - yB
+    const distance = Math.sqrt(xDiff * xDiff + yDiff * yDiff)
+
+    // Returns collision info object:
+    if (distance >= radR - radB) return {
+        uuid: collider.uuid,
+        colliderType: 'ring',
+        intersection: (distance - radB) - radR
+    }
+
+    return false
+}
+
 // Finds collisions for a ball type:
 const findCollisionsAsABall = (element, colliders) => {
 
@@ -43,6 +66,13 @@ const findCollisionsAsABall = (element, colliders) => {
             // Handles ball x ball collision:
             if (collider.physics.type === 'ball') {
                 const found = findCollisionsBallXBall(element, collider)
+
+                if (found) collisions.push(found)
+            }
+
+            // Handles ball x ring collision:
+            else if (collider.physics.type === 'ring') {
+                const found = findCollisionsBallXRing(element, collider)
 
                 if (found) collisions.push(found)
             }
