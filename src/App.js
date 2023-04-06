@@ -5,101 +5,54 @@ import Physics from './components/physics/Physics'
 import Dynamic from './components/physics/Dynamic'
 import Static from './components/physics/Static'
 
+import BackGround from './components/scene/BackGround'
+import Ring from './components/scene/Ring'
+import Ball from './components/scene/Ball'
+
 import './style.css'
 
 const App = () => {
+  // Colors list:
+  const colors = ['deepskyblue', 'dodgerblue', 'coral', 'yellow', 'orange', 'lime', 'magenta']
+
+  // Generates random start positions and next colors of balls:
+  let balls = []
+  for (let i = 0; i < 28; i++) {
+    balls.push({
+      x: Math.floor(Math.random() * 10 - 5) / 10,
+      y: Math.floor(Math.random() * 10 - 5) / 10,
+      color: colors[i % colors.length]
+    })
+  }
+
   return (
     <Canvas>
-      <color args={[0, 0, 0]} attach={'background'} />
 
-      {/* <Physics gravity={{ x: 0, y: -3 }} airResistance={8}>
-        <Dynamic
-          type='ball'
-          element={<mesh>
-            <sphereGeometry args={[0.2]} />
-            <meshBasicMaterial color={'red'} />
-          </mesh>}
-          config={{ startPosition: { x: 1, y: -1 }, startVelocity: { x: -0.09, y: 0.09 }, radius: 0.2 }}
-        />
-
-        <Dynamic
-          type='ball'
-          element={<mesh>
-            <sphereGeometry args={[0.2]} />
-            <meshBasicMaterial color={'blue'} />
-          </mesh>}
-          config={{ startPosition: { x: -1, y: 1 }, startVelocity: { x: 0, y: 0 }, radius: 0.2 }}
-        />
-      </Physics> */}
-
-      {/* <Physics gravity={{ x: 0, y: 0 }} airResistance={8}>
-        <Dynamic
-          type='ball'
-          element={<mesh>
-            <sphereGeometry args={[0.2]} />
-            <meshBasicMaterial color={'red'} />
-          </mesh>}
-          config={{ startPosition: { x: 1, y: 0 }, mass: 5, startVelocity: { x: -0.03, y: 0 }, radius: 0.2 }}
-        />
-
-        <Dynamic
-          type='ball'
-          element={<mesh>
-            <sphereGeometry args={[0.2]} />
-            <meshBasicMaterial color={'blue'} />
-          </mesh>}
-          config={{ startPosition: { x: -1, y: 0 }, startVelocity: { x: 0.03, y: 0 }, radius: 0.2 }}
-        />
-      </Physics> */}
+      {/* Grid and viewfinder in the backgroud: */}
+      <BackGround />
 
       <Physics gravity={{ x: 0, y: -3 }} airResistance={8} maxSpeed={{ x: 0.5, y: 0.5 }}>
-        <Dynamic
-          type='ball'
-          element={<mesh>
-            <sphereGeometry args={[0.1]} />
-            <meshBasicMaterial color={'red'} />
-          </mesh>}
-          config={{ startPosition: { x: 0, y: 0 }, mass: 1, startVelocity: { x: 0.01, y: 0 }, radius: 0.1 }}
-        />
 
-        <Dynamic
-          type='ball'
-          element={<mesh>
-            <sphereGeometry args={[0.1]} />
-            <meshBasicMaterial color={'blue'} />
-          </mesh>}
-          config={{ startPosition: { x: 0, y: 0 }, startVelocity: { x: 0, y: 0 }, radius: 0.1 }}
-        />
+        {/* Balls loop: */}
+        {
+          balls.map((ball, n) => <Dynamic
+            key={n}
+            type='ball'
+            element={<Ball color={ball.color} />}
+            config={{ startPosition: { x: ball.x, y: ball.y }, radius: 0.1 }}
+          />)
+        }
 
+        {/* Static Ring */}
         <Static
           type='ring'
-          element={<mesh><ringGeometry args={[3, 3.1, 64]} /></mesh>}
+          element={<Ring />}
           config={{
             startPosition: { x: 0, y: 0 },
             radius: 3
           }}
         />
       </Physics>
-
-      {/* <Physics gravity={{ x: 0, y: -3 }} airResistance={8}>
-        <Dynamic
-          type='ball'
-          element={<mesh>
-            <sphereGeometry args={[0.2]} />
-            <meshBasicMaterial color={'red'} />
-          </mesh>}
-          config={{ startPosition: { x: 0, y: 1.5 }, startVelocity: { x: 0, y: 0 }, radius: 0.2 }}
-        />
-
-        <Dynamic
-          type='ball'
-          element={<mesh>
-            <sphereGeometry args={[0.2]} />
-            <meshBasicMaterial color={'blue'} />
-          </mesh>}
-          config={{ startPosition: { x: 0, y: -1 }, startVelocity: { x: 0, y: 0.2 }, radius: 0.2 }}
-        />
-      </Physics> */}
     </Canvas>
   )
 }
