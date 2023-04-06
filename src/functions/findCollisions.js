@@ -21,6 +21,7 @@ const findCollisionsBallXBall = (element, collider) => {
         colliderType: 'ball',
         position: { x: collider.position.x, y: collider.position.y },
         velocity: { x: collider.physics.velocity.x, y: collider.physics.velocity.y },
+        intersection: (radB + radC) !== 0 ? (radB + radC - distance) / (radB + radC) : 1,
         mass: collider.physics.mass
     }
 

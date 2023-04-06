@@ -15,13 +15,19 @@ const calculateCollisionBallxBall = (element, collision) => {
     // Calculates normal vector:
     const normalVector = { x: colliderPosition.x - ballPosition.x, y: colliderPosition.y - ballPosition.y }
     const normalLength = Math.sqrt(normalVector.x * normalVector.x + normalVector.y * normalVector.y)
-    normalVector.x /= normalLength
-    normalVector.y /= normalLength
+    normalVector.x /= (normalLength !== 0 ? normalLength : 1)
+    normalVector.y /= (normalLength !== 0 ? normalLength : 1)
 
-    // Calculates perpendicular vector:
+    // Calculates perpendicular vector (includes balls intersection):
     const perpVector = {
-        x: normalVector.x * (ballVelocity.x * normalVector.x + ballVelocity.y * normalVector.y),
-        y: normalVector.y * (ballVelocity.x * normalVector.x + ballVelocity.y * normalVector.y),
+        x: normalVector.x * (ballVelocity.x * normalVector.x + ballVelocity.y * normalVector.y + collision.intersection / 100),
+        y: normalVector.y * (ballVelocity.x * normalVector.x + ballVelocity.y * normalVector.y + collision.intersection / 100),
+    }
+
+    // If balls are in exact positions and do not move, it applies random movements to them:
+    if (collision.intersection > 0 && perpVector.x === 0 && perpVector.y === 0) {
+        perpVector.x += (Math.floor(Math.random() * 10) - 5) / 1000
+        perpVector.y += (Math.floor(Math.random() * 10) - 5) / 1000
     }
 
     // Calculates parallel vector:
