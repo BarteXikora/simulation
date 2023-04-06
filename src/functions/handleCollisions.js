@@ -25,7 +25,10 @@ const calculateCollisionBallxBall = (element, collision) => {
     }
 
     // Calculates parallel vector:
-    const parVector = { x: colliderVelocity.x - perpVector.x, y: colliderVelocity.y - perpVector.y }
+    const parVector = {
+        x: ballVelocity.x - perpVector.x + colliderVelocity.x + ballVelocity.x,
+        y: ballVelocity.y - perpVector.y + colliderVelocity.y + ballVelocity.y
+    }
 
     // Calculates and returns new ball vector:
     return { x: parVector.x - perpVector.x, y: parVector.y - perpVector.y }
