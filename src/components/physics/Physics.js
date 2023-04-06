@@ -15,7 +15,7 @@ import handleNewCollisions from '../../functions/handleNewCollisions'
 import handleCollisions from '../../functions/handleCollisions'
 import clearOngoingCollisions from '../../functions/clearOngoingCollisions'
 
-const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) => {
+const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80, maxSpeed = { x: 1, y: 1 } }) => {
     // Ref for all children:
     const physicsRef = useRef([])
 
@@ -25,12 +25,6 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
 
             // Calculations for dynamic objects:
             if (current.physics.physics === 'dynamic') {
-
-                // Handles gravity:
-                current.physics.velocity = handleGravity(current, gravity, delta)
-
-                // Handles air resistance:
-                current.physics.velocity = handleAirResistance(current, airResistance, delta)
 
                 // Gets list of collisions:
                 current.physics.collisions.lastFrame = findCollisions(current, physicsRef.current)
@@ -44,6 +38,12 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
 
                 // Verify if ongoing collisions still occur:
                 current.physics.collisions.ongoing = clearOngoingCollisions(current.physics.collisions)
+
+                // Handles gravity:
+                current.physics.velocity = handleGravity(current, gravity, delta)
+
+                // Handles air resistance:
+                current.physics.velocity = handleAirResistance(current, airResistance, maxSpeed, delta)
             }
         })
 
