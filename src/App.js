@@ -19,8 +19,8 @@ const App = () => {
   let balls = []
   for (let i = 0; i < 28; i++) {
     balls.push({
-      x: Math.floor(Math.random() * 10 - 5) / 10,
-      y: Math.floor(Math.random() * 10 - 5) / 10,
+      position: { x: Math.floor(Math.random() * 10 - 5) / 10, y: Math.floor(Math.random() * 10 - 5) / 10 },
+      velocity: { x: Math.floor(Math.random() * 10 - 5) / 100, y: Math.floor(Math.random() * 10 - 5) / 100 },
       color: colors[i % colors.length]
     })
   }
@@ -39,7 +39,11 @@ const App = () => {
             key={n}
             type='ball'
             element={<Ball color={ball.color} />}
-            config={{ startPosition: { x: ball.x, y: ball.y }, radius: 0.1 }}
+            config={{
+              startPosition: ball.position,
+              startVelocity: ball.velocity,
+              radius: 0.1
+            }}
           />)
         }
 
