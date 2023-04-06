@@ -10,6 +10,10 @@ import { useFrame } from '@react-three/fiber'
 import handleGravity from '../../functions/handleGravity'
 import handleAirResistance from '../../functions/handleAirResistance'
 import calculatePosition from '../../functions/calculatePosition'
+import findCollisions from '../../functions/findCollisions'
+import handleNewCollisions from '../../functions/handleNewCollisions'
+import handleCollisions from '../../functions/handleCollisions'
+import clearOngoingCollisions from '../../functions/clearOngoingCollisions'
 
 const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) => {
     // Ref for all children:
@@ -28,10 +32,32 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
                 // Handles air resistance:
                 current.physics.velocity = handleAirResistance(current, airResistance, delta)
 
-                // Applies calculations by changinch position based on valocity:
-                const newPosition = calculatePosition(current)
-                current.position.set(newPosition.x, newPosition.y, current.position.z)
+                // Gets list of collisions:
+                current.physics.collisions.lastFrame = findCollisions(current, physicsRef.current)
+
+                // Manage "on collision" event:
+                const [setCollisions, newCollisions] = handleNewCollisions(current.physics.collisions)
+                current.physics.collisions = { ...setCollisions }
+
+                // Handle collisions if there are any:
+                if (newCollisions.length > 0) current.physics._velocity = handleCollisions(current, newCollisions)
+
+                // Verify if ongoing collisions still occur:
+                current.physics.collisions.ongoing = clearOngoingCollisions(current.physics.collisions)
             }
+        })
+
+        physicsRef.current.forEach(current => {
+
+            // Applies velocity calculated by handle collisions function:
+            if (current.physics.physics === 'dynamic') if (current.physics._velocity) {
+                current.physics.velocity = current.physics._velocity
+                current.physics._velocity = null
+            }
+
+            // Applies calculations by changinch position based on valocity:
+            const newPosition = calculatePosition(current)
+            current.position.set(newPosition.x, newPosition.y, current.position.z)
         })
     })
 
@@ -59,7 +85,16 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
                         radius: child.props.config ? child.props.config.radius || 1 : 1,
 
                         // Velocity of an object:
-                        velocity: child.props.config ? child.props.config.startVelocity || { x: 0, y: 0 } : { x: 0, y: 0 }
+                        velocity: child.props.config ? child.props.config.startVelocity || { x: 0, y: 0 } : { x: 0, y: 0 },
+
+                        // Temporary velocity calculated by handle collision function:
+                        _velocity: null,
+
+                        // Collisions:
+                        collisions: {
+                            lastFrame: [],
+                            ongoing: []
+                        }
                     }
                 })
             }
