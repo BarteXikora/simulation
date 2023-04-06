@@ -27,7 +27,6 @@ const App = () => {
 
   return (
     <Canvas>
-      <color args={[0, 0, 0]} attach={'background'} />
 
       {/* Grid and viewfinder in the backgroud: */}
       <BackGround />
