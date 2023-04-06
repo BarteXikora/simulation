@@ -13,11 +13,22 @@ const calculateCollisionBallxBall = (element, collision) => {
     const colliderVelocity = { x: collision.velocity.x, y: collision.velocity.y }
 
     // Calculates normal vector:
-    // HERE!!!
+    const normalVector = { x: colliderPosition.x - ballPosition.x, y: colliderPosition.y - ballPosition.y }
+    const normalLength = Math.sqrt(normalVector.x * normalVector.x + normalVector.y * normalVector.y)
+    normalVector.x /= normalLength
+    normalVector.y /= normalLength
 
-    console.log(ballPosition, ballVelocity, colliderPosition, colliderVelocity)
+    // Calculates perpendicular vector:
+    const perpVector = {
+        x: normalVector.x * (ballVelocity.x * normalVector.x + ballVelocity.y * normalVector.y),
+        y: normalVector.y * (ballVelocity.x * normalVector.x + ballVelocity.y * normalVector.y),
+    }
 
-    return { x: 0, y: 0 }
+    // Calculates parallel vector:
+    const parVector = { x: colliderVelocity.x - perpVector.x, y: colliderVelocity.y - perpVector.y }
+
+    // Calculates and returns new ball vector:
+    return { x: parVector.x - perpVector.x, y: parVector.y - perpVector.y }
 }
 
 // Main function, calculates all collisions using more specific functions and then calculates average vector:
@@ -34,7 +45,16 @@ const handleCollisions = (element, collisions) => {
         }
     })
 
-    return { x: 0, y: 0 }
+    // Calculates average vector value:
+    let avgVector = { x: 0, y: 0 }
+    velocities.forEach(vel => {
+        avgVector.x += vel.x
+        avgVector.y += vel.y
+    })
+    avgVector.x /= (velocities.length !== 0 ? velocities.length : 1)
+    avgVector.y /= (velocities.length !== 0 ? velocities.length : 1)
+
+    return avgVector
 }
 
 export default handleCollisions
