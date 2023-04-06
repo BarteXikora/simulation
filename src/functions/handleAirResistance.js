@@ -1,3 +1,8 @@
+/*
+    Handle Air Resistance function
+    Calculates new velocity by adding air resistance.
+*/
+
 const handleAirResistance = (element, airResistance, timeDelta) => {
     return {
         x: element.physics.velocity.x - (element.physics.velocity.x / airResistance * timeDelta),
