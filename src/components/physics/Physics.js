@@ -11,7 +11,9 @@ import handleGravity from '../../functions/handleGravity'
 import handleAirResistance from '../../functions/handleAirResistance'
 import calculatePosition from '../../functions/calculatePosition'
 import findCollisions from '../../functions/findCollisions'
+import handleNewCollisions from '../../functions/handleNewCollisions'
 import handleCollisions from '../../functions/handleCollisions'
+import clearOngoingCollisions from '../../functions/clearOngoingCollisions'
 
 const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) => {
     // Ref for all children:
@@ -31,10 +33,17 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
                 current.physics.velocity = handleAirResistance(current, airResistance, delta)
 
                 // Gets list of collisions:
-                current.collisions = findCollisions(current, physicsRef.current)
+                current.physics.collisions.lastFrame = findCollisions(current, physicsRef.current)
+
+                // Manage "on collision" event:
+                const [setCollisions, newCollisions] = handleNewCollisions(current.physics.collisions)
+                current.physics.collisions = { ...setCollisions }
 
                 // Handle collisions if there are any:
-                if (current.collisions.length > 0) current.physics._velocity = handleCollisions(current, current.collisions)
+                if (newCollisions.length > 0) current.physics._velocity = handleCollisions(current, newCollisions)
+
+                // Verify if ongoing collisions still occur:
+                current.physics.collisions.ongoing = clearOngoingCollisions(current.physics.collisions)
             }
         })
 
@@ -82,7 +91,10 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
                         _velocity: null,
 
                         // Collisions:
-                        collisions: []
+                        collisions: {
+                            lastFrame: [],
+                            ongoing: []
+                        }
                     }
                 })
             }
