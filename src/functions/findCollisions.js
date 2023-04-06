@@ -45,9 +45,11 @@ const findCollisionsBallXRing = (element, collider) => {
     // Returns collision info object:
     if (distance >= radR - radB) return {
         uuid: collider.uuid,
-        colliderType: 'ring'
+        colliderType: 'ring',
+        intersection: (distance - radB) - radR
     }
 
+    return false
 }
 
 // Finds collisions for a ball type:
