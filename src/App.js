@@ -52,26 +52,33 @@ const App = () => {
         />
       </Physics> */}
 
-      <Physics gravity={{ x: 0, y: 0 }} airResistance={8}>
+      <Physics gravity={{ x: 0, y: -3 }} airResistance={8} maxSpeed={{ x: 0.5, y: 0.5 }}>
         <Dynamic
           type='ball'
           element={<mesh>
-            <sphereGeometry args={[0.2]} />
+            <sphereGeometry args={[0.1]} />
             <meshBasicMaterial color={'red'} />
           </mesh>}
-          config={{ startPosition: { x: 0, y: 0 }, mass: 1, startVelocity: { x: 0.01, y: 0 }, radius: 0.2 }}
+          config={{ startPosition: { x: 0, y: 0 }, mass: 1, startVelocity: { x: 0.01, y: 0 }, radius: 0.1 }}
         />
 
         <Dynamic
           type='ball'
           element={<mesh>
-            <sphereGeometry args={[0.2]} />
+            <sphereGeometry args={[0.1]} />
             <meshBasicMaterial color={'blue'} />
           </mesh>}
-          config={{ startPosition: { x: 0, y: 0 }, startVelocity: { x: 0, y: 0 }, radius: 0.2 }}
+          config={{ startPosition: { x: 0, y: 0 }, startVelocity: { x: 0, y: 0 }, radius: 0.1 }}
         />
 
-        <Static element={<mesh><ringGeometry args={[3, 3.1, 64]} /></mesh>} config={{}} />
+        <Static
+          type='ring'
+          element={<mesh><ringGeometry args={[3, 3.1, 64]} /></mesh>}
+          config={{
+            startPosition: { x: 0, y: 0 },
+            radius: 3
+          }}
+        />
       </Physics>
 
       {/* <Physics gravity={{ x: 0, y: -3 }} airResistance={8}>
