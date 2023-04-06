@@ -35,11 +35,13 @@ const Physics = ({ children, gravity = { x: 0, y: -10 }, airResistance = 80 }) =
 
                 // Handle collisions if there are any:
                 if (current.collisions.length > 0) current.physics.velocity = handleCollisions(current, current.collisions)
-
-                // Applies calculations by changinch position based on valocity:
-                const newPosition = calculatePosition(current)
-                current.position.set(newPosition.x, newPosition.y, current.position.z)
             }
+        })
+
+        physicsRef.current.forEach(current => {
+            // Applies calculations by changinch position based on valocity:
+            const newPosition = calculatePosition(current)
+            current.position.set(newPosition.x, newPosition.y, current.position.z)
         })
     })
 
