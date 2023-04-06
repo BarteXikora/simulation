@@ -10,28 +10,36 @@ import Ring from './components/scene/Ring'
 import './style.css'
 
 const App = () => {
+  // Colors list:
+  const colors = ['deepskyblue', 'dodgerblue', 'coral', 'yellow', 'orange', 'lime', 'magenta']
+
+  // Generates random start positions and next colors of balls:
+  let balls = []
+  for (let i = 0; i < 28; i++) {
+    balls.push({
+      x: Math.floor(Math.random() * 10 - 5) / 10,
+      y: Math.floor(Math.random() * 10 - 5) / 10,
+      color: colors[i % colors.length]
+    })
+  }
+
   return (
     <Canvas>
       <color args={[0, 0, 0]} attach={'background'} />
 
       <Physics gravity={{ x: 0, y: -3 }} airResistance={8} maxSpeed={{ x: 0.5, y: 0.5 }}>
-        <Dynamic
-          type='ball'
-          element={<mesh>
-            <sphereGeometry args={[0.1]} />
-            <meshBasicMaterial color={'red'} />
-          </mesh>}
-          config={{ startPosition: { x: 0, y: 0 }, mass: 1, startVelocity: { x: 0.01, y: 0 }, radius: 0.1 }}
-        />
 
-        <Dynamic
-          type='ball'
-          element={<mesh>
-            <sphereGeometry args={[0.1]} />
-            <meshBasicMaterial color={'blue'} />
-          </mesh>}
-          config={{ startPosition: { x: 0, y: 0 }, startVelocity: { x: 0, y: 0 }, radius: 0.1 }}
-        />
+        {
+          balls.map((ball, n) => <Dynamic
+            key={n}
+            type='ball'
+            element={<mesh>
+              <sphereGeometry args={[0.1]} />
+              <meshBasicMaterial color={ball.color} />
+            </mesh>}
+            config={{ startPosition: { x: ball.x, y: ball.y }, radius: 0.1 }}
+          />)
+        }
 
         <Static
           type='ring'
