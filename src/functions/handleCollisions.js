@@ -40,6 +40,11 @@ const calculateCollisionBallxBall = (element, collision) => {
     return { x: parVector.x - perpVector.x, y: parVector.y - perpVector.y }
 }
 
+// Calculates new vector after collision of a ball with a rings wall:
+const calculateCollisionBallxRing = (element) => {
+    return { x: -element.physics.velocity.x, y: -element.physics.velocity.y }
+}
+
 // Main function, calculates all collisions using more specific functions and then calculates average vector:
 const handleCollisions = (element, collisions) => {
 
@@ -51,6 +56,9 @@ const handleCollisions = (element, collisions) => {
         if (element.physics.type === 'ball') {
             if (collision.colliderType === 'ball')
                 velocities.push(calculateCollisionBallxBall(element, collision))
+
+            else if (collision.colliderType === 'ring')
+                velocities.push(calculateCollisionBallxRing(element))
         }
     })
 
