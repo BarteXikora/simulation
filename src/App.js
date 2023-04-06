@@ -11,14 +11,14 @@ const App = () => {
     <Canvas>
       <color args={[0, 0, 0]} attach={'background'} />
 
-      <Physics gravity={{ x: 0, y: 0 }} airResistance={8}>
+      {/* <Physics gravity={{ x: 0, y: -3 }} airResistance={8}>
         <Dynamic
           type='ball'
           element={<mesh>
             <sphereGeometry args={[0.2]} />
             <meshBasicMaterial color={'red'} />
           </mesh>}
-          config={{ startPosition: { x: 1, y: 0 }, startVelocity: { x: -0.005, y: 0 }, radius: 0.2 }}
+          config={{ startPosition: { x: 1, y: -1 }, startVelocity: { x: -0.09, y: 0.09 }, radius: 0.2 }}
         />
 
         <Dynamic
@@ -27,9 +27,69 @@ const App = () => {
             <sphereGeometry args={[0.2]} />
             <meshBasicMaterial color={'blue'} />
           </mesh>}
-          config={{ startPosition: { x: 0, y: -0.75 }, startVelocity: { x: 0.02, y: 0.02 }, radius: 0.2 }}
+          config={{ startPosition: { x: -1, y: 1 }, startVelocity: { x: 0, y: 0 }, radius: 0.2 }}
+        />
+      </Physics> */}
+
+      {/* <Physics gravity={{ x: 0, y: 0 }} airResistance={8}>
+        <Dynamic
+          type='ball'
+          element={<mesh>
+            <sphereGeometry args={[0.2]} />
+            <meshBasicMaterial color={'red'} />
+          </mesh>}
+          config={{ startPosition: { x: 1, y: 0 }, mass: 5, startVelocity: { x: -0.03, y: 0 }, radius: 0.2 }}
+        />
+
+        <Dynamic
+          type='ball'
+          element={<mesh>
+            <sphereGeometry args={[0.2]} />
+            <meshBasicMaterial color={'blue'} />
+          </mesh>}
+          config={{ startPosition: { x: -1, y: 0 }, startVelocity: { x: 0.03, y: 0 }, radius: 0.2 }}
+        />
+      </Physics> */}
+
+      <Physics gravity={{ x: 0, y: 0 }} airResistance={8}>
+        <Dynamic
+          type='ball'
+          element={<mesh>
+            <sphereGeometry args={[0.2]} />
+            <meshBasicMaterial color={'red'} />
+          </mesh>}
+          config={{ startPosition: { x: 0, y: 0 }, mass: 1, startVelocity: { x: 0.01, y: 0 }, radius: 0.2 }}
+        />
+
+        <Dynamic
+          type='ball'
+          element={<mesh>
+            <sphereGeometry args={[0.2]} />
+            <meshBasicMaterial color={'blue'} />
+          </mesh>}
+          config={{ startPosition: { x: 0, y: 0 }, startVelocity: { x: 0, y: 0 }, radius: 0.2 }}
         />
       </Physics>
+
+      {/* <Physics gravity={{ x: 0, y: -3 }} airResistance={8}>
+        <Dynamic
+          type='ball'
+          element={<mesh>
+            <sphereGeometry args={[0.2]} />
+            <meshBasicMaterial color={'red'} />
+          </mesh>}
+          config={{ startPosition: { x: 0, y: 1.5 }, startVelocity: { x: 0, y: 0 }, radius: 0.2 }}
+        />
+
+        <Dynamic
+          type='ball'
+          element={<mesh>
+            <sphereGeometry args={[0.2]} />
+            <meshBasicMaterial color={'blue'} />
+          </mesh>}
+          config={{ startPosition: { x: 0, y: -1 }, startVelocity: { x: 0, y: 0.2 }, radius: 0.2 }}
+        />
+      </Physics> */}
     </Canvas>
   )
 }
