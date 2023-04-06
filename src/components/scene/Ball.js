@@ -1,3 +1,8 @@
+/*
+    Ball Component
+    Ball mesh, recives ball color as a prop.
+*/
+
 import React from 'react'
 
 const Ball = ({ color }) => {

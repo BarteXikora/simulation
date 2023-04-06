@@ -1,5 +1,9 @@
+/*
+    Ring Component
+    Ring mesh.
+*/
+
 import React from 'react'
-import Static from '../physics/Static'
 
 const Ring = () => {
     return <mesh>

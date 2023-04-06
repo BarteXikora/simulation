@@ -30,6 +30,7 @@ const App = () => {
 
       <Physics gravity={{ x: 0, y: -3 }} airResistance={8} maxSpeed={{ x: 0.5, y: 0.5 }}>
 
+        {/* Balls loop: */}
         {
           balls.map((ball, n) => <Dynamic
             key={n}
@@ -39,6 +40,7 @@ const App = () => {
           />)
         }
 
+        {/* Static Ring */}
         <Static
           type='ring'
           element={<Ring />}
