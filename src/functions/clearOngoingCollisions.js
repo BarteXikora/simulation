@@ -1,3 +1,8 @@
+/*
+    Clear Ongoing Collisions function
+    Checks if each of collisions saved in ongoing collisions array still occur.
+*/
+
 const clearOngoingCollisions = (collisions) => {
     const newOngoing = []
 
