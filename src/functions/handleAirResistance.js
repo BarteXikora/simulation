@@ -3,8 +3,8 @@
     Calculates new velocity by adding air resistance.
 */
 
-const handleAirResistance = (element, airResistance, timeDelta) => {
-    return {
+const handleAirResistance = (element, airResistance, maxSpeed, timeDelta) => {
+    const newVector = {
         x: element.physics.velocity.x - (element.physics.velocity.x / airResistance * timeDelta),
         y: element.physics.velocity.y - (element.physics.velocity.y / airResistance * timeDelta),
     }
